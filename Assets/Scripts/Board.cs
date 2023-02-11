@@ -18,13 +18,16 @@ public class Board : MonoBehaviour
     /// </summary>
     public void Create()
     {
-        #region Создание поля
+        #region Создание клеток на поле
         for (int y = 0; y < 8; y++)
         {
             for (int x = 0; x < 8; x++)
             {
                 // Создание клетки
                 GameObject newCell = Instantiate(mCellPrefab, transform);
+
+                //Создание имени клетке
+                newCell.name = $"Cell {x} {y}";
 
                 // Позиция
                 RectTransform rectTransform = newCell.GetComponent<RectTransform>();
@@ -33,6 +36,7 @@ public class Board : MonoBehaviour
                 // Сетап
                 mAllCells[x, y] = newCell.GetComponent<Cell>();
                 mAllCells[x, y].Setup(new Vector2Int(x, y), this);
+
             }
         }
         #endregion
