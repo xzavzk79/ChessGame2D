@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 3308091132883037217}
   - component: {fileID: 317727006552348062}
   - component: {fileID: 1802498187834251368}
-  - component: {fileID: 1630250459254530657}
+  - component: {fileID: 4274296786005136088}
   m_Layer: 5
   m_Name: Pr_Cell
   m_TagString: Untagged
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1630250459254530657
+--- !u!114 &4274296786005136088
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mOutlineImage: {fileID: 5885570643393896388}
+  newCell: {fileID: 0}
   mBoardPosition: {x: 0, y: 0}
   mBoard: {fileID: 0}
   mRectTransform: {fileID: 0}

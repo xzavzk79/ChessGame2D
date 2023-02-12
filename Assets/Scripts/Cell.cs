@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Cell : MonoBehaviour
 {
     public Image mOutlineImage;
+    public Cell newCell;
 
     [HideInInspector]
     public Vector2Int mBoardPosition = Vector2Int.zero;

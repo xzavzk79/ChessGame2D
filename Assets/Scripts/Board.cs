@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine.UI;
 public class Board : MonoBehaviour
 {
     public GameObject mCellPrefab;
+
+    public GameObject newCell;
 
     /// <summary>
     /// префабы всех клеток
@@ -24,9 +27,9 @@ public class Board : MonoBehaviour
             for (int x = 0; x < 8; x++)
             {
                 // Создание клетки
-                GameObject newCell = Instantiate(mCellPrefab, transform);
+                newCell = Instantiate(mCellPrefab, transform);
 
-                //Создание имени клетке
+                //Создание имени клетки
                 newCell.name = $"Cell {x} {y}";
 
                 // Позиция
@@ -42,7 +45,7 @@ public class Board : MonoBehaviour
         #endregion
 
         #region Покраска
-        for (int x = 0; x < 8; x+=2)
+        for (int x = 0; x < 8; x += 2)
         {
             for (int y = 0; y < 8; y++)
             {
@@ -51,9 +54,9 @@ public class Board : MonoBehaviour
                 int finalX = x + offset;
 
                 // Цвет
-                mAllCells[finalX, y].GetComponent<Image>().color = new Color32(255, 255, 255, 255); // Красим нечет клетки в черный
+                mAllCells[finalX, y].GetComponent<Image>().color = new Color32(255, 255, 255, 255); // Красим нечет клетки в 
             }
         }
         #endregion
     }
-}
+}           
