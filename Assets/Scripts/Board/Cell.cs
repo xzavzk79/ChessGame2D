@@ -16,6 +16,9 @@ public class Cell : MonoBehaviour
     [HideInInspector]
     public RectTransform mRectTransform = null;
 
+    [HideInInspector]
+    public BasePieces mCurrentPiece = null;
+
     /// <summary>
     /// Конструктор записывающий информацию клетки
     /// </summary>
@@ -27,5 +30,13 @@ public class Cell : MonoBehaviour
         mBoard = newBoard;
 
         mRectTransform = GetComponent<RectTransform>();
+    }
+
+    public void RemovePiece()
+    {
+        if (mCurrentPiece != null) 
+        { 
+        
+        }
     }
 }
