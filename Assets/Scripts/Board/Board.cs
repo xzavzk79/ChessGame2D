@@ -12,17 +12,16 @@ public class Board : MonoBehaviour
     public GameObject newCell;
 
     /// <summary>
-    /// префабы всех клеток
+    /// Префабы всех клеток
     /// </summary>
     [HideInInspector]
     public Cell[,] mAllCells = new Cell[8, 8];
 
     /// <summary>
-    /// создание поля
+    /// Создание поля
     /// </summary>
     public void Create()
     {
-        #region Создание клеток на поле
         for (int y = 0; y < 8; y++)
         {
             for (int x = 0; x < 8; x++)
@@ -35,7 +34,8 @@ public class Board : MonoBehaviour
 
                 // Позиция
                 RectTransform rectTransform = newCell.GetComponent<RectTransform>();
-                rectTransform.anchoredPosition = new Vector2((x * 100) + 50, (y * 100) + 50); // размеры клетки
+                // размеры клетки
+                rectTransform.anchoredPosition = new Vector2((x * 100) + 50, (y * 100) + 50);
 
                 // Сетап
                 mAllCells[x, y] = newCell.GetComponent<Cell>();
@@ -43,9 +43,7 @@ public class Board : MonoBehaviour
 
             }
         }
-        #endregion
 
-        #region Покраска
         for (int x = 0; x < 8; x += 2)
         {
             for (int y = 0; y < 8; y++)
@@ -54,10 +52,9 @@ public class Board : MonoBehaviour
                 int offset = (y % 2 != 0) ? 0 : 1;
                 int finalX = x + offset;
 
-                // Цвет
-                mAllCells[finalX, y].GetComponent<Image>().color = new Color32(255, 255, 255, 255); // Красим нечет клетки в 
+                // Красим нечет клетки
+                mAllCells[finalX, y].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
             }
         }
-        #endregion
     }
 }           

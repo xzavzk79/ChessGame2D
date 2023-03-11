@@ -12,15 +12,12 @@ public class PieceManager : MonoBehaviour
     private List<BasePieces> mWhitePieces = null;
     private List<BasePieces> mBlackPieces = null;
 
-    #region Порядок расположениея фигур
     private string[] mPieceOrder = new string[16]
     {
         "P", "P", "P", "P", "P", "P", "P", "P",
         "R", "KN", "B", "K", "Q", "B", "KN", "R"
     };
-    #endregion
 
-    #region Присвоение фигур
     private Dictionary<string, Type> mPieceLibrary = new Dictionary<string, Type>()
     {
         {"P", typeof(Pawn) },
@@ -30,9 +27,11 @@ public class PieceManager : MonoBehaviour
         {"K" , typeof(King) },
         {"Q", typeof(Queen) }
     };
-    #endregion
 
-    #region Присвоение сторон фигурам
+    /// <summary>
+    /// Метод распределяющий фигуры по сторонам
+    /// </summary>
+    /// <param name="board"></param>
     public void Setup(Board board)
     {
         mWhitePieces = CreatePieces(Color.white, new Color32(80, 124, 159, 255), board);
@@ -42,9 +41,14 @@ public class PieceManager : MonoBehaviour
         PlacePieces(1, 0, mWhitePieces, board);
         PlacePieces(6, 7, mBlackPieces, board);
     }
-    #endregion
 
-    #region Создание фигур
+    /// <summary>
+    /// Метод добавляющий фигуры на поле
+    /// </summary>
+    /// <param name="teamColor"></param>
+    /// <param name="spriteColor"></param>
+    /// <param name="board"></param>
+    /// <returns></returns>
     private List<BasePieces> CreatePieces(Color teamColor, Color32 spriteColor, Board board)
     {
         List<BasePieces> newPieces = new List<BasePieces>();
@@ -70,17 +74,24 @@ public class PieceManager : MonoBehaviour
 
         return newPieces;
     }
-    #endregion
 
-    #region Расстановка фигур
+    /// <summary>
+    /// Метод расстанавливающий фигуры в нужной строке
+    /// </summary>
+    /// <param name="pawnRow"></param>
+    /// <param name="royaltyRow"></param>
+    /// <param name="pieces"></param>
+    /// <param name="board"></param>
     private void PlacePieces(int pawnRow, int royaltyRow, List<BasePieces> pieces, Board board)
     {
         for (int i = 0; i<8; i++) 
         {
+            //Строка пешек
             pieces[i].Place(board.mAllCells[i, pawnRow]);
 
+
+           //Строка короля
             pieces[i + 8].Place(board.mAllCells[i, royaltyRow]);
         }
     }
-    #endregion
 }

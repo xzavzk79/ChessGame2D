@@ -10,13 +10,10 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        #region Рисование поля
         // Создание поля
         mBoard.Create();
-        #endregion
 
-        #region Размещение фигур
+        //Размещение на полк фигур
         mPieceManager.Setup(mBoard);
-        #endregion
     }
 }
