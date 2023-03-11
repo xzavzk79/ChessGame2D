@@ -38,8 +38,8 @@ public class PieceManager : MonoBehaviour
 
         mBlackPieces = CreatePieces(Color.black, new Color32(210, 95, 64, 255), board);
 
-        PlacePieces(1, 0, mWhitePieces, board);
-        PlacePieces(6, 7, mBlackPieces, board);
+        PlacePieces(2, 1, mWhitePieces, board);
+        PlacePieces(7, 8, mBlackPieces, board);
     }
 
     /// <summary>
@@ -87,11 +87,11 @@ public class PieceManager : MonoBehaviour
         for (int i = 0; i<8; i++) 
         {
             //Строка пешек
-            pieces[i].Place(board.mAllCells[i, pawnRow]);
+            pieces[i].Place(board.mAllCells[i+1, pawnRow]);
 
 
            //Строка короля
-            pieces[i + 8].Place(board.mAllCells[i, royaltyRow]);
+            pieces[i + 8].Place(board.mAllCells[i+1, royaltyRow]);
         }
     }
 }

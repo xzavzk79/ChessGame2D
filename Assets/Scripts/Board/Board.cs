@@ -11,20 +11,23 @@ public class Board : MonoBehaviour
 
     public GameObject newCell;
 
+    static int Width = 10;
+    static int Height = 10;
+
     /// <summary>
     /// Префабы всех клеток
     /// </summary>
     [HideInInspector]
-    public Cell[,] mAllCells = new Cell[8, 8];
+    public Cell[,] mAllCells = new Cell[Width, Height];
 
     /// <summary>
     /// Создание поля
     /// </summary>
     public void Create()
     {
-        for (int y = 0; y < 8; y++)
+        for (int y = 0; y < Height; y++)
         {
-            for (int x = 0; x < 8; x++)
+            for (int x = 0; x < Width; x++)
             {
                 // Создание клетки
                 newCell = Instantiate(mCellPrefab, transform);
@@ -44,9 +47,9 @@ public class Board : MonoBehaviour
             }
         }
 
-        for (int x = 0; x < 8; x += 2)
+        for (int x = 0; x < Width; x += 2)
         {
-            for (int y = 0; y < 8; y++)
+            for (int y = 0; y < Height; y++)
             {
                 // Проверка на чет/нечет
                 int offset = (y % 2 != 0) ? 0 : 1;

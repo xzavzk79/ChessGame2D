@@ -80,6 +80,7 @@ public class BasePieces : EventTrigger
             currentY += yDirection;
 
             mHighlightedCells.Add(mCurrentCell.mBoard.mAllCells[currentX, currentY]);
+            Debug.Log(currentY);
         }
     }
 
