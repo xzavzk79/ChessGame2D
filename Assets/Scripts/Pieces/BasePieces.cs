@@ -75,21 +75,9 @@ public class BasePieces : EventTrigger
 
         //Проверка клеток
         for(int i = 1; i <= movement; i++) 
-        {   
+        { 
             currentX += xDirection;
             currentY += yDirection;
-
-            CellState cellState = CellState.None;
-            cellState = mCurrentCell.mBoard.ValidateCell(currentX, currentY, this);
-
-            if (cellState == CellState.Enemy)
-            {
-                mHighlightedCells.Add(mCurrentCell.mBoard.mAllCells[currentX, currentY]);
-                break;
-            }
-
-            if (cellState != CellState.Free)
-                break;
 
             mHighlightedCells.Add(mCurrentCell.mBoard.mAllCells[currentX, currentY]);
             Debug.Log(currentY);
@@ -186,8 +174,6 @@ public class BasePieces : EventTrigger
         }
 
         Move();
-
-        mPieceManager.SwitchSides(mColor);
     }
     #endregion
 }

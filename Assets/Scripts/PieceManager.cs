@@ -7,9 +7,6 @@ using UnityEngine.UIElements;
 
 public class PieceManager : MonoBehaviour
 {
-    [HideInInspector]
-    public bool mIsKingAlive = true; 
-    
     public GameObject mPiecePrefab;
 
     private List<BasePieces> mWhitePieces = null;
@@ -43,8 +40,6 @@ public class PieceManager : MonoBehaviour
 
         PlacePieces(2, 1, mWhitePieces, board);
         PlacePieces(7, 8, mBlackPieces, board);
-
-        SwitchSides(Color.black);
     }
 
     /// <summary>
@@ -98,36 +93,5 @@ public class PieceManager : MonoBehaviour
            //Строка короля
             pieces[i + 8].Place(board.mAllCells[i+1, royaltyRow]);
         }
-    }
-
-    private void SetInteractive(List<BasePieces> allPieces, bool value)
-    {
-        foreach (BasePieces piece in allPieces)
-            piece.enabled = value;
-    }
-
-    public void SwitchSides(Color color)
-    {
-        if (!mIsKingAlive)
-        {
-            ResetPieces();
-
-            mIsKingAlive = true;
-
-            color = Color.black;
-        }
-
-        bool isBlackTurn = color == Color.white ? true : false;
-
-        SetInteractive(mWhitePieces, !isBlackTurn);
-        SetInteractive(mBlackPieces, isBlackTurn);
-    }
-    public void ResetPieces()
-    {
-        foreach (BasePieces piece in mWhitePieces)
-            piece.Reset();
-
-        foreach (BasePieces piece in mBlackPieces)
-            piece.Reset();
     }
 }
