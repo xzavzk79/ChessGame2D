@@ -5,6 +5,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum CellState
+{
+    None,
+    Friendly,
+    Enemy,
+    Free,
+    OutOfBounds
+}
+
 public class Board : MonoBehaviour
 {
     public GameObject mCellPrefab;
@@ -59,5 +68,27 @@ public class Board : MonoBehaviour
                 mAllCells[finalX, y].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
             }
         }
+    }
+
+    public CellState ValidateCell(int targetX, int targetY, BasePieces checkingPiece)
+    {
+        if (targetX < 0 || targetX > 9)
+            return CellState.OutOfBounds;
+        
+        if(targetY < 0 || targetY> 9)
+            return CellState.OutOfBounds;
+
+        Cell targetCell = mAllCells[targetX, targetY];
+
+        if (targetCell.mCurrentPiece != null)
+        {
+            if (checkingPiece.mColor == targetCell.mCurrentPiece.mColor)
+                return CellState.Friendly;
+
+            if (checkingPiece.mColor != targetCell.mCurrentPiece.mColor)
+                return CellState.Enemy;
+        }
+
+        return CellState.Free;
     }
 }           
