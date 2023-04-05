@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -14,6 +15,7 @@ public class PieceManager : MonoBehaviour
 
     private List<BasePieces> mWhitePieces = null;
     private List<BasePieces> mBlackPieces = null;
+    private List<BasePieces> mPromotedPieces = new List<BasePieces>();
 
     private string[] mPieceOrder = new string[16]
     {
@@ -35,7 +37,7 @@ public class PieceManager : MonoBehaviour
     /// Метод распределяющий фигуры по сторонам
     /// </summary>
     /// <param name="board"></param>
-    public void Setup(Board board)
+    public void Setup(Board board)  
     {
         mWhitePieces = CreatePieces(Color.white, new Color32(80, 124, 159, 255), board);
 
@@ -60,24 +62,35 @@ public class PieceManager : MonoBehaviour
 
         for (int i = 0; i < mPieceOrder.Length; i++)
         {
-            GameObject newPieceObject = Instantiate(mPiecePrefab);
-            newPieceObject.transform.SetParent(transform);
-
-            newPieceObject.name = $"Piece {i+1}";
-
-            newPieceObject.transform.localScale = new Vector3(1, 1, 1);
-            newPieceObject.transform.localRotation = Quaternion.identity;
-
             string key = mPieceOrder[i];
             Type pieceType = mPieceLibrary[key];
 
-            BasePieces newPiece = (BasePieces)newPieceObject.AddComponent(pieceType);
+            BasePieces newPiece = CreatePiece(pieceType, i);
             newPieces.Add(newPiece);
 
             newPiece.Setup(teamColor, spriteColor, this);
         }
 
         return newPieces;
+    }
+    /// <summary>
+    /// Метод создающий фигуру
+    /// </summary>
+    /// <param name="pieceType">тип фигуры</param>
+    /// <returns></returns>
+    private BasePieces CreatePiece(Type pieceType, int i)
+    {
+        GameObject newPieceObject = Instantiate(mPiecePrefab);
+        newPieceObject.transform.SetParent(transform);
+
+        newPieceObject.name = $"Piece {i + 1}";
+
+        newPieceObject.transform.localScale = new Vector3(1, 1, 1);
+        newPieceObject.transform.localRotation = Quaternion.identity;
+
+        BasePieces newPiece = (BasePieces)newPieceObject.AddComponent(pieceType);
+
+        return newPiece;
     }
 
     /// <summary>
@@ -121,13 +134,44 @@ public class PieceManager : MonoBehaviour
 
         SetInteractive(mWhitePieces, !isBlackTurn);
         SetInteractive(mBlackPieces, isBlackTurn);
+
+        foreach (BasePieces pieces in mPromotedPieces)
+        {
+            bool isBlackPiece = pieces.mColor != Color.white ? true : false;
+            bool isPartOfTeam = isBlackPiece == true ? isBlackTurn : !isBlackTurn;
+
+            pieces.enabled = isPartOfTeam;
+        }
     }
     public void ResetPieces()
     {
+        foreach (BasePieces pieces in mPromotedPieces)
+        {
+            pieces.Kill();
+
+            Destroy(pieces.gameObject);
+        }
+
         foreach (BasePieces piece in mWhitePieces)
             piece.Reset();
         
         foreach (BasePieces piece in mBlackPieces)
             piece.Reset();
+    }
+    public void PromotePiece(Pawn pawn, Cell cell, Color teamColor, Color spriteColor)
+    {
+        // Анигилируем пешку
+        pawn.Kill();
+
+        //Создаем нового юнита
+        BasePieces promotedPiece = CreatePiece(typeof(Queen), 0);
+        promotedPiece.Setup(teamColor, spriteColor, this);
+
+        // Размещаем нового юнита
+        promotedPiece.Place(cell);
+
+        // Добавляем в команду(список)
+
+        mPromotedPieces.Add(promotedPiece);
     }
 }

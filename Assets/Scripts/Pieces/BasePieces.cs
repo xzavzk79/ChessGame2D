@@ -48,7 +48,7 @@ public class BasePieces : EventTrigger
         gameObject.SetActive(true);
     }
 
-    public void Reset()
+    public virtual void Reset()
     {
         Kill();
 

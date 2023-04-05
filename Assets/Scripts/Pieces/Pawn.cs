@@ -22,7 +22,9 @@ public class Pawn : BasePieces
         base.Move();
 
         mIsFirstMove = false;
-    }
+
+        CheckForPromotion();
+    }   
 
     private bool MatchesState (int targetX, int targetY, CellState targetState)
     {
@@ -36,6 +38,20 @@ public class Pawn : BasePieces
         }
 
         return false;
+    }
+
+    private void CheckForPromotion()
+    {
+        int currentX = mCurrentCell.mBoardPosition.x;
+        int currentY = mCurrentCell.mBoardPosition.y;
+
+        CellState cellState = mCurrentCell.mBoard.ValidateCell(currentX, currentY + mMovement.y, this);
+
+        if (cellState == CellState.OutOfBounds)
+        {
+            Color spriteColor = GetComponent<Image>().color;
+            mPieceManager.PromotePiece(this, mCurrentCell, mColor, spriteColor);
+        }
     }
 
     protected override void CheckPathing()
@@ -54,5 +70,12 @@ public class Pawn : BasePieces
         }
 
         MatchesState(currentX + mMovement.z, currentY + mMovement.z, CellState.Enemy);
+    }
+
+    public override void Reset()
+    {
+        base.Reset();
+
+        mIsFirstMove = true;
     }
 }
