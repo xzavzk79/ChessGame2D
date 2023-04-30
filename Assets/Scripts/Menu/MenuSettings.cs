@@ -4,32 +4,50 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
+
 public class MenuSettings : MonoBehaviour
 {
-    public float volume = 0;
-    public bool isFullScreen = false;
     public AudioMixer audioMixer;
-    public Dropdown resolutionDropDown;
-    private Resolution[] resolutions;
-    private int currResolutionIndex = 0;
+    public Dropdown rDd;
+    Resolution[] resolutions;
 
+    void Start()
+    {
+        resolutions = Screen.resolutions;
 
-    public void ChangeVolume(float val)
-    {
-        volume = val;
+        rDd.ClearOptions();
+
+        List<string> options = new List<string>();
+
+        int cri = 0;
+        for (int i = 0; i < resolutions.Length; i++)
+        {
+            string option = resolutions[i].width + "x" + resolutions[i].height;
+            options.Add(option);
+
+            if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+            {
+                cri = i;
+            }
+        }
+
+        rDd.AddOptions(options);
+        rDd.value = cri;
+        rDd.RefreshShownValue();
     }
-    public void ChangeResolution(int index)
+
+    public void SetResolution(int ri)
     {
-        currResolutionIndex = index;
+        Resolution resolution = resolutions[ri];
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
-    public void ChangeFullScreen(bool val)
+    public void SetVolume (float vol)
     {
-        isFullScreen = val;
+        audioMixer.SetFloat("vol", vol);
     }
-    public void SaveSettings()
+
+    public void SetFullScreen(bool isFS)
     {
-        audioMixer.SetFloat("MasterVolume", volume);
-        Screen.fullScreen = isFullScreen;
-        Screen.SetResolution(Screen.resolutions[currResolutionIndex].width, Screen.resolutions[currResolutionIndex].height, isFullScreen);
+        Screen.fullScreen = isFS;
     }
 }
