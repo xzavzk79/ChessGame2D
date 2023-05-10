@@ -20,8 +20,8 @@ public class Board : MonoBehaviour
 
     public GameObject newCell;
 
-    static int Width = 10;
-    static int Height = 10;
+    static int Width = 8;
+    static int Height = 8;
 
     /// <summary>
     /// Префабы всех клеток
@@ -72,10 +72,10 @@ public class Board : MonoBehaviour
 
     public CellState ValidateCell(int targetX, int targetY, BasePieces checkingPiece)
     {
-        if (targetX < 0 || targetX > 9)
+        if (targetX < 0 || targetX > 7)
             return CellState.OutOfBounds;
         
-        if(targetY < 0 || targetY> 9)
+        if(targetY < 0 || targetY> 7)
             return CellState.OutOfBounds;
 
         Cell targetCell = mAllCells[targetX, targetY];
