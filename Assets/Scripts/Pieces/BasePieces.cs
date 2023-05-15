@@ -12,7 +12,7 @@ public class BasePieces : EventTrigger
     [HideInInspector]
     public Color mColor = Color.clear;
 
-    protected Cell mOriginalCell = null;
+    protected Cell mOriginalCell_4x4 = null;
     protected Cell mCurrentCell = null;
 
     protected RectTransform mRectTransform = null;
@@ -40,7 +40,7 @@ public class BasePieces : EventTrigger
     public void Place(Cell newCell)
     {
         mCurrentCell = newCell;
-        mOriginalCell = newCell;
+        mOriginalCell_4x4 = newCell;
         mCurrentCell.mCurrentPiece = this;
 
         transform.position = newCell.transform.position;
@@ -51,7 +51,7 @@ public class BasePieces : EventTrigger
     {
         Kill();
 
-        Place(mOriginalCell);
+        Place(mOriginalCell_4x4);
     }
 
     public virtual void Kill()

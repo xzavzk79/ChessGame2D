@@ -12,6 +12,7 @@ public class Cell : MonoBehaviour
     public Vector2Int mBoardPosition = Vector2Int.zero;
     [HideInInspector]
     public Board mBoard = null;
+    
     [HideInInspector]
     public RectTransform mRectTransform = null;
 
@@ -30,6 +31,7 @@ public class Cell : MonoBehaviour
 
         mRectTransform = GetComponent<RectTransform>();
     }
+    
 
     public void RemovePiece()
     {

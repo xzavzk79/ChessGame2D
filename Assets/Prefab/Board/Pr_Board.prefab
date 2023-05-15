@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4770502326562635556}
   - component: {fileID: 1374238546361380175}
   - component: {fileID: 5612370001833282996}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Pr_Board
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mCellPrefab: {fileID: 8081314335195108938, guid: 4782fadef78b1f04c85f7433d2a81f78, type: 3}
+  newCell: {fileID: 0}
 --- !u!223 &5612370001833282996
 Canvas:
   m_ObjectHideFlags: 0
