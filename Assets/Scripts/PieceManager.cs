@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class PieceManager : MonoBehaviour
@@ -12,6 +13,8 @@ public class PieceManager : MonoBehaviour
     public bool mIsKingAlive = true;
     
     public GameObject mPiecePrefab;
+    public GameObject GameOver;
+    public Text winText;
 
     private List<BasePieces> mWhitePieces = null;
     private List<BasePieces> mBlackPieces = null;
@@ -43,8 +46,8 @@ public class PieceManager : MonoBehaviour
 
         mBlackPieces = CreatePieces(Color.black, new Color32(210, 95, 64, 255), board);
 
-        PlacePieces(2, 1, mWhitePieces, board);
-        PlacePieces(7, 8, mBlackPieces, board);
+        PlacePieces(1, 0, mWhitePieces, board);
+        PlacePieces(6, 7, mBlackPieces, board);
 
         SwitchSides(Color.black);
     }
@@ -105,11 +108,11 @@ public class PieceManager : MonoBehaviour
         for (int i = 0; i<8; i++) 
         {
             //Строка пешек
-            pieces[i].Place(board.mAllCells[i+1, pawnRow]);
+            pieces[i].Place(board.mAllCells[i, pawnRow]);
 
 
            //Строка короля
-            pieces[i + 8].Place(board.mAllCells[i+1, royaltyRow]);
+            pieces[i + 8].Place(board.mAllCells[i, royaltyRow]);
         }
     }
 
@@ -123,6 +126,17 @@ public class PieceManager : MonoBehaviour
     {
         if (!mIsKingAlive)
         {
+            GameOver.SetActive(true);
+            Time.timeScale = 0f;
+            if (color == Color.black)
+            {
+                winText.text = "Black wins";
+            }
+            else
+            {
+                winText.text = "White wins";
+            }
+
             ResetPieces();
 
             mIsKingAlive = true;
@@ -143,8 +157,13 @@ public class PieceManager : MonoBehaviour
             pieces.enabled = isPartOfTeam;
         }
     }
+    public void HideGameOver()
+    {
+        GameOver.SetActive(false);
+    }
     public void ResetPieces()
     {
+
         foreach (BasePieces pieces in mPromotedPieces)
         {
             pieces.Kill();

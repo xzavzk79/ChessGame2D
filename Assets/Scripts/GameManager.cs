@@ -12,12 +12,12 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         // Создание поля
-        //mBoard.Create();
+        mBoard.Create();
         // Создание поля
-        mBoard_4x4.Create();
+        //mBoard_4x4.Create();
         //Размещение на полк фигур
-        //mPieceManager.Setup(mBoard);
+        mPieceManager.Setup(mBoard);
         //Размещение на полк фигур
-        mPieceManager_4x4.Setup(mBoard_4x4);
+        //mPieceManager_4x4.Setup(mBoard_4x4);
     }
 }
