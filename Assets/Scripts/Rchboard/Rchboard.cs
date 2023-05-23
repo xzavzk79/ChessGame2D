@@ -46,16 +46,37 @@ public class Rchboard : MonoBehaviour
        
         for (int i = 0; i < 8; i++)
         {
-            //1 линия
-            checkerPrefab.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("whitedef");
-            GameObject newWhitePiece = Instantiate(checkerPrefab, squares[i, 1].transform);
-            newWhitePiece.gameObject.GetComponent<PieceRCh>();
-            //newWhitePiece.GetComponent<Renderer>().material = WhitePieceMat;
-            //6 линия
-            checkerPrefab.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("blackdef");
-            GameObject newBlackPiece = Instantiate(checkerPrefab, squares[i, 7].transform);
-            newBlackPiece.gameObject.GetComponent<PieceRCh>();
-            //newBlackPiece.GetComponent<Renderer>().material = BlackPieceMat;
+            if (i%2==0)
+            {
+                //1 линия
+                checkerPrefab.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("whitedef");
+                GameObject newWhitePiece = Instantiate(checkerPrefab, squares[i, 0].transform);
+                newWhitePiece.gameObject.GetComponent<PieceRCh>();
+                //3 линия
+                checkerPrefab.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("whitedef");
+                GameObject newWhitePiece3 = Instantiate(checkerPrefab, squares[i, 2].transform);
+                newWhitePiece3.gameObject.GetComponent<PieceRCh>();
+
+                //6 линия
+                checkerPrefab.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("blackdef");
+                GameObject newBlackPiece6 = Instantiate(checkerPrefab, squares[i, 5].transform);
+                newBlackPiece6.gameObject.GetComponent<PieceRCh>();
+                //8 линия
+                checkerPrefab.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("blackdef");
+                GameObject newBlackPiece = Instantiate(checkerPrefab, squares[i, 7].transform);
+                newBlackPiece.gameObject.GetComponent<PieceRCh>();
+            }
+            else if (i%2!=0)
+            {
+                //2 линия
+                checkerPrefab.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("whitedef");
+                GameObject newWhitePiece2 = Instantiate(checkerPrefab, squares[i, 1].transform);
+                newWhitePiece2.gameObject.GetComponent<PieceRCh>();
+                //7 линия
+                checkerPrefab.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("blackdef");
+                GameObject newBlackPiece6 = Instantiate(checkerPrefab, squares[i, 6].transform);
+                newBlackPiece6.gameObject.GetComponent<PieceRCh>();
+            }
         }
     }
 }

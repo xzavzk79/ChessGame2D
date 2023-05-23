@@ -168,6 +168,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09ad09f975bbfe94db4860aee9787831, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mBoard: {fileID: 0}
+  mPieceManager: {fileID: 0}
 --- !u!114 &192706995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 432661ba724d40e42af7dda1494b0c0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 642969775077727280, guid: 0baf4477dd5aac54db8c86bf10109439, type: 3}
+  tilePrefab: {fileID: 642969775077727280, guid: a402f3933ffcdb14692f4631ba7cf23f, type: 3}
   checkerPrefab: {fileID: 1299988386039778851, guid: 6a7da744e8f52eb4caf6184077abef9e, type: 3}
   WhiteMat: {fileID: 2100000, guid: f374c5e8d7e1c6842a39be4e727999e8, type: 2}
   BlackMat: {fileID: 2100000, guid: 31d353b76159b5147bb2124238ad5494, type: 2}
