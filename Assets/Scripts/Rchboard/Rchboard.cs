@@ -9,6 +9,10 @@ public class Rchboard : MonoBehaviour
     public static string[] alphabet = new string[] { "a", "b", "c", "d", "e", "f", "g", "h" };
 
 
+    public bool WhiteTurn = true;
+    public bool IsLastWhite = true;
+
+
     public GameObject tilePrefab;
 
     public GameObject checkerPrefab;

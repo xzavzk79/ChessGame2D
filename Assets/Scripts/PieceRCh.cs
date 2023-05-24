@@ -6,14 +6,25 @@ using UnityEngine;
 
 public class PieceRCh : MonoBehaviour
 {
+    #region глобальный стаф
     [HideInInspector]
     GameObject[] go;
+    [HideInInspector]
+    Rchboard rboard;
 
     public GameObject checkerPrefab;
 
     public bool Isempty = true;
     public bool Selected = false;
     public bool HaveChildObj = false;
+    #endregion
+
+    #region Перемещение шашек
+
+    private void Start()
+    {
+        rboard = GameObject.Find("GameManager").GetComponent<Rchboard>();
+    }
 
     private void OnMouseDown()
     {
@@ -21,18 +32,27 @@ public class PieceRCh : MonoBehaviour
         HaveChild();
         if (Isempty && Selected && !HaveChildObj)
         {
+
+            Debug.Log("ifwork");
+
             GetObjwChild();
         }
     }
     public void HaveChild()
     {
-        if (gameObject.transform.childCount != 0)
+        if (gameObject.transform.childCount > 0)
         {
+
+            Debug.Log("HchildTrueEmptFalse");
+
             HaveChildObj = true;
             Isempty = false;
         }
         else
         {
+
+            Debug.Log("HchildFalseEmptTrue");
+
             HaveChildObj = false;
             Isempty = true;
         }
@@ -40,62 +60,62 @@ public class PieceRCh : MonoBehaviour
     public void GetObjwChild()
     {
         FillArrayWithGo();
-        foreach (GameObject gameObj in go)
+        restart:
+        foreach (GameObject gameObj in go.Where(g => g.GetComponent<PieceRCh>().Selected == true))
         {
-            if (gameObj.GetComponent<PieceRCh>().Selected == true && gameObj.GetComponent<PieceRCh>().HaveChildObj == false && this.Selected ==true && this.HaveChildObj == false)
+            if (gameObj.GetComponent<PieceRCh>().HaveChildObj == true && this.Selected == true && this.HaveChildObj == false)
             {
-                gameObj.GetComponent<PieceRCh>().Selected = false;
-                gameObj.GetComponent<PieceRCh>().Isempty = true;
-                this.Selected = false;
-                continue;
-            }
-            if (gameObj.GetComponent<PieceRCh>().Selected == true && gameObj.GetComponent<PieceRCh>().HaveChildObj == true && this.Selected == true && this.HaveChildObj == true)
-            {
-                gameObj.GetComponent<PieceRCh>().Selected = false;
-                this.Selected = false;
-                continue;
-            }
-            if (gameObj.GetComponent<PieceRCh>().Selected == true && gameObj.GetComponent<PieceRCh>().HaveChildObj == true && this.Selected == true && this.HaveChildObj == false)
-            {
+
                 Debug.Log(gameObj.name);
+
                 MoveChild(gameObj);
-                continue;
+
+                goto restart;
             }
         }
         Array.Clear(go, 0, go.Length);
     }
     public void MoveChild(GameObject gameObj)
     {
-        DestroyImmediate(gameObj.transform.GetChild(0).gameObject);
-        gameObj.GetComponent<PieceRCh>().HaveChildObj = false;
-        gameObj.GetComponent<PieceRCh>().Selected = false;
-        gameObj.GetComponent<PieceRCh>().Isempty = true;
-        this.Selected = false;
-        var child = Instantiate(checkerPrefab, this.gameObject.transform);
-        HaveChild();
+
+        Debug.Log("MovingChild");
+
+        if (!rboard.WhiteTurn && gameObj.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite == Resources.Load<Sprite>("blackdef") || gameObj.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite == Resources.Load<Sprite>("blackcool"))
+        {
+            checkerPrefab.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("blackdef");
+            var child = Instantiate(checkerPrefab, this.gameObject.transform);
+            DestroyImmediate(gameObj.transform.GetChild(0).gameObject);
+            gameObj.GetComponent<PieceRCh>().HaveChildObj = false;
+            gameObj.GetComponent<PieceRCh>().Selected = false;
+            gameObj.GetComponent<PieceRCh>().Isempty = true;
+            this.Selected = false;
+            rboard.WhiteTurn = true;
+            HaveChild();
+        }
+        else if (rboard.WhiteTurn && gameObj.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite == Resources.Load<Sprite>("whitedef") || gameObj.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite == Resources.Load<Sprite>("whitecool"))
+        {
+            checkerPrefab.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("whitedef");
+            var child = Instantiate(checkerPrefab, this.gameObject.transform);
+            DestroyImmediate(gameObj.transform.GetChild(0).gameObject);
+            gameObj.GetComponent<PieceRCh>().HaveChildObj = false;
+            gameObj.GetComponent<PieceRCh>().Selected = false;
+            gameObj.GetComponent<PieceRCh>().Isempty = true;
+            this.Selected = false;
+            rboard.WhiteTurn = false;
+            HaveChild();
+        }
+        else
+        {
+            gameObj.GetComponent<PieceRCh>().Selected = false;
+            this.Selected = false;
+        }
     }
     public void FillArrayWithGo()
     {
+
+        Debug.Log("FillArray");
+
         go = GameObject.FindGameObjectsWithTag("Tile");
     }
-
-    private void Start()
-    {
-        HaveChild();
-    }
-
-    //private void Update()
-    //{
-    //    if (Input.GetMouseButtonDown(0))
-    //    {
-    //        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    //        Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
-
-    //        RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
-    //        if (hit.collider != null)
-    //        {
-    //            Debug.Log(hit.collider.gameObject.name);
-    //        }
-    //    }
-    //}
+    #endregion
 }
