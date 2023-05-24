@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 4356708709336569101}
   - component: {fileID: 7751095412591091435}
   - component: {fileID: 8152859914446436427}
+  - component: {fileID: -2927973154678257250}
   m_Layer: 0
   m_Name: ChTilePR
-  m_TagString: Untagged
+  m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,3 +112,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-2927973154678257250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 642969775077727280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0a2c5542a02d564c825167efa58b036, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkerPrefab: {fileID: 1299988386039778851, guid: 6a7da744e8f52eb4caf6184077abef9e, type: 3}
+  Selected: 0
+  HaveChildObj: 0
