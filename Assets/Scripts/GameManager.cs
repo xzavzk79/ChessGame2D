@@ -30,16 +30,6 @@ public class GameManager : MonoBehaviour
             RChBoard = gameObject.GetComponent<Rchboard>();
             RChBoard.CreateChBoard();
             RChBoard.SetupPieces();
-        }
-
-
-        // Создание поля
-        //mBoard_4x4.Create();
-
-
-        //Размещение на полк фигур
-        //mPieceManager_4x4.Setup(mBoard_4x4);
-
-        
+        }    
     }
 }

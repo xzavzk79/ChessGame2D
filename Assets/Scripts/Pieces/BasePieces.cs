@@ -40,7 +40,6 @@ public class BasePieces : EventTrigger
     public void Place(Cell newCell)
     {
         mCurrentCell = newCell;
-        mOriginalCell_4x4 = newCell;
         mCurrentCell.mCurrentPiece = this;
 
         transform.position = newCell.transform.position;
@@ -50,8 +49,6 @@ public class BasePieces : EventTrigger
     public virtual void Reset()
     {
         Kill();
-
-        Place(mOriginalCell_4x4);
     }
 
     public virtual void Kill()
