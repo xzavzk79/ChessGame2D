@@ -10,7 +10,6 @@ public class Rchboard : MonoBehaviour
 
 
     public bool WhiteTurn = true;
-    public bool IsLastWhite = true;
 
 
     public GameObject tilePrefab;
@@ -41,7 +40,7 @@ public class Rchboard : MonoBehaviour
                 }
 
                 squares[i, j].transform.SetParent(gameObject.transform);
-                squares[i, j].name = alphabet[i] + (j + 1);
+                squares[i, j].name = alphabet[i] + ' ' + (j + 1);
             }
         }
     }

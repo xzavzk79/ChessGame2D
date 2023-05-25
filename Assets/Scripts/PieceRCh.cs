@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PieceRCh : MonoBehaviour
@@ -9,6 +10,10 @@ public class PieceRCh : MonoBehaviour
     #region глобальный стаф
     [HideInInspector]
     GameObject[] go;
+    [HideInInspector]
+    List<string> posmove = new List<string>();
+    [HideInInspector]
+    public static string[] alphabet = new string[] { "a", "b", "c", "d", "e", "f", "g", "h" };
     [HideInInspector]
     Rchboard rboard;
 
@@ -19,8 +24,6 @@ public class PieceRCh : MonoBehaviour
     public bool HaveChildObj = false;
     #endregion
 
-    #region Перемещение шашек
-
     private void Start()
     {
         rboard = GameObject.Find("GameManager").GetComponent<Rchboard>();
@@ -29,30 +32,79 @@ public class PieceRCh : MonoBehaviour
     private void OnMouseDown()
     {
         Selected = true;
+        CheckPosMove();
         HaveChild();
         if (Isempty && Selected && !HaveChildObj)
         {
 
-            Debug.Log("ifwork");
-
             GetObjwChild();
+        }
+    }
+    public void CheckPosMove()
+    {
+        string[] curcell = this.name.Split(' ');
+        int LeterrIndex = Array.IndexOf(alphabet, curcell[0]);
+
+        int tmp = Convert.ToInt32(curcell[1]);
+
+        if (rboard.WhiteTurn)
+        {
+            if (LeterrIndex == 0)
+            {
+                LeterrIndex += 1;
+                posmove.Add(alphabet[LeterrIndex] + " " + (tmp + 1));
+                Debug.Log(posmove[0]);
+            }
+            else if (LeterrIndex > 0 && LeterrIndex < 7)
+            {
+                LeterrIndex += 1;
+                posmove.Add(alphabet[LeterrIndex] + " " + (tmp + 1));
+                LeterrIndex -= 2;
+                posmove.Add(alphabet[LeterrIndex] + " " + (tmp + 1));
+                Debug.Log(posmove[0] + " " + posmove[1]);
+            }
+            else if (LeterrIndex == 7)
+            {
+                LeterrIndex -= 1;
+                posmove.Add(alphabet[LeterrIndex] + " " + (tmp + 1));
+                Debug.Log(posmove[0]);
+            }
+            posmove.Clear();
+        }
+        else
+        {
+            if (LeterrIndex == 0)
+            {
+                LeterrIndex += 1;
+                posmove.Add(alphabet[LeterrIndex] + " " + (tmp - 1));
+                Debug.Log(posmove[0]);
+            }
+            else if (LeterrIndex > 0 && LeterrIndex < 7)
+            {
+                LeterrIndex += 1;
+                posmove.Add(alphabet[LeterrIndex] + " " + (tmp - 1));
+                LeterrIndex -= 2;
+                posmove.Add(alphabet[LeterrIndex] + " " + (tmp - 1));
+                Debug.Log(posmove[0] + " " + posmove[1]);
+            }
+            else if (LeterrIndex == 7)
+            {
+                LeterrIndex -= 1;
+                posmove.Add(alphabet[LeterrIndex] + " " + (tmp - 1));
+                Debug.Log(posmove[0]);
+            }
+            posmove.Clear();
         }
     }
     public void HaveChild()
     {
         if (gameObject.transform.childCount > 0)
         {
-
-            Debug.Log("HchildTrueEmptFalse");
-
             HaveChildObj = true;
             Isempty = false;
         }
         else
         {
-
-            Debug.Log("HchildFalseEmptTrue");
-
             HaveChildObj = false;
             Isempty = true;
         }
@@ -65,9 +117,6 @@ public class PieceRCh : MonoBehaviour
         {
             if (gameObj.GetComponent<PieceRCh>().HaveChildObj == true && this.Selected == true && this.HaveChildObj == false)
             {
-
-                Debug.Log(gameObj.name);
-
                 MoveChild(gameObj);
 
                 goto restart;
@@ -77,9 +126,6 @@ public class PieceRCh : MonoBehaviour
     }
     public void MoveChild(GameObject gameObj)
     {
-
-        Debug.Log("MovingChild");
-
         if (!rboard.WhiteTurn && gameObj.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite == Resources.Load<Sprite>("blackdef") || gameObj.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite == Resources.Load<Sprite>("blackcool"))
         {
             checkerPrefab.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("blackdef");
@@ -112,10 +158,6 @@ public class PieceRCh : MonoBehaviour
     }
     public void FillArrayWithGo()
     {
-
-        Debug.Log("FillArray");
-
         go = GameObject.FindGameObjectsWithTag("Tile");
     }
-    #endregion
 }
