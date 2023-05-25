@@ -11,6 +11,7 @@ public class BasePieces : EventTrigger
     
     [HideInInspector]
     public Color mColor = Color.clear;
+    public bool mIsFirstMove = true;
 
     protected Cell mOriginalCell_4x4 = null;
     protected Cell mCurrentCell = null;
@@ -37,7 +38,7 @@ public class BasePieces : EventTrigger
     /// ћетод сообщающий нужную клетку дл€ создани€ фигуры
     /// </summary>
     /// <param name="newCell"></param>
-    public void Place(Cell newCell)
+    public virtual void Place(Cell newCell)
     {
         mCurrentCell = newCell;
         mCurrentCell.mCurrentPiece = this;
@@ -45,8 +46,7 @@ public class BasePieces : EventTrigger
         transform.position = newCell.transform.position;
         gameObject.SetActive(true);
     }
-
-    public virtual void Reset()
+    public void Reset()
     {
         Kill();
     }
