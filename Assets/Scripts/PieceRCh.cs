@@ -17,6 +17,10 @@ public class PieceRCh : MonoBehaviour
     [HideInInspector]
     Rchboard rboard;
 
+
+    public bool WhitTeam = false;
+    public bool BlackTeam = false;
+
     public GameObject checkerPrefab;
 
     public bool Isempty = true;
@@ -32,17 +36,32 @@ public class PieceRCh : MonoBehaviour
     private void OnMouseDown()
     {
         Selected = true;
-        CheckPosMove();
         HaveChild();
+        if (HaveChildObj)
+        {
+            CheckTeam();
+            CheckPosMove();
+        }
         if (Isempty && Selected && !HaveChildObj)
         {
-
             GetObjwChild();
+        }
+    }
+    public void CheckTeam()
+    {
+        if (this.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite == Resources.Load<Sprite>("blackdef") || this.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite == Resources.Load<Sprite>("blackcool"))
+        {
+            this.BlackTeam = true;
+        }
+        else
+        {
+            this.WhitTeam = true;
         }
     }
     public void CheckPosMove()
     {
         string[] curcell = this.name.Split(' ');
+        int tmpletind = 0;
         int LeterrIndex = Array.IndexOf(alphabet, curcell[0]);
 
         int tmp = Convert.ToInt32(curcell[1]);
@@ -52,49 +71,200 @@ public class PieceRCh : MonoBehaviour
             if (LeterrIndex == 0)
             {
                 LeterrIndex += 1;
-                posmove.Add(alphabet[LeterrIndex] + " " + (tmp + 1));
-                Debug.Log(posmove[0]);
+                GameObject move1 = GameObject.Find(alphabet[LeterrIndex] + " " + (tmp + 1));
+                if (move1.GetComponent<PieceRCh>().BlackTeam)
+                {
+                    tmpletind = LeterrIndex + 1;
+                    if (GameObject.Find(alphabet[tmpletind] + " " + (tmp + 2)).GetComponent<PieceRCh>().BlackTeam)
+                    {
+                        this.Selected = false;
+                    }
+                    else
+                    {
+                        posmove.Add(alphabet[tmpletind] + " " + (tmp + 2));
+                    }
+                    tmpletind = 0;
+                }
+                else
+                {
+                    posmove.Add(alphabet[LeterrIndex] + " " + (tmp + 1));
+                }
             }
             else if (LeterrIndex > 0 && LeterrIndex < 7)
             {
                 LeterrIndex += 1;
-                posmove.Add(alphabet[LeterrIndex] + " " + (tmp + 1));
+                GameObject move1 = GameObject.Find(alphabet[LeterrIndex] + " " + (tmp + 1));
+                if (move1.GetComponent<PieceRCh>().BlackTeam)
+                {
+                    tmpletind = LeterrIndex + 1;
+                    if (tmpletind > 7)
+                    {
+                        goto WhiteLeftOutOfBoard;
+                    }
+                    else if (GameObject.Find(alphabet[tmpletind] + " " + (tmp + 2)).GetComponent<PieceRCh>().BlackTeam)
+                    {
+                        this.Selected = false;
+                    }
+                    else
+                    {
+                        posmove.Add(alphabet[tmpletind] + " " + (tmp + 2));
+                    }
+                    tmpletind = 0;
+                }
+                else
+                {
+                    posmove.Add(alphabet[LeterrIndex] + " " + (tmp + 1));
+                }
+                WhiteLeftOutOfBoard:
                 LeterrIndex -= 2;
-                posmove.Add(alphabet[LeterrIndex] + " " + (tmp + 1));
-                Debug.Log(posmove[0] + " " + posmove[1]);
+                GameObject move2 = GameObject.Find(alphabet[LeterrIndex] + " " + (tmp + 1));
+                if (move2.GetComponent<PieceRCh>().BlackTeam)
+                {
+                    tmpletind = LeterrIndex - 1;
+                    if (tmpletind < 0)
+                    {
+                        goto methodend;
+                    }
+                    else if (GameObject.Find(alphabet[tmpletind] + " " + (tmp + 2)).GetComponent<PieceRCh>().BlackTeam)
+                    {
+                        this.Selected = false;
+                    }
+                    else
+                    {
+                        posmove.Add(alphabet[tmpletind] + " " + (tmp + 2));
+                    }
+                    tmpletind = 0;
+                }
+                else
+                {
+                    posmove.Add(alphabet[LeterrIndex] + " " + (tmp + 1));
+                }
             }
             else if (LeterrIndex == 7)
             {
                 LeterrIndex -= 1;
-                posmove.Add(alphabet[LeterrIndex] + " " + (tmp + 1));
-                Debug.Log(posmove[0]);
+                GameObject move1 = GameObject.Find(alphabet[LeterrIndex] + " " + (tmp + 1));
+                if (move1.GetComponent<PieceRCh>().BlackTeam)
+                {
+                    tmpletind  = LeterrIndex - 1;
+                    if (GameObject.Find(alphabet[tmpletind] + " " + (tmp + 2)).GetComponent<PieceRCh>().BlackTeam)
+                    {
+                        this.Selected = false;
+                    }
+                    else
+                    {
+                        posmove.Add(alphabet[tmpletind] + " " + (tmp + 2));
+                    }
+                    tmpletind = 0;
+                }
+                else
+                {
+                    posmove.Add(alphabet[LeterrIndex] + " " + (tmp + 1));
+                }
+
             }
-            posmove.Clear();
+
         }
         else
         {
             if (LeterrIndex == 0)
             {
                 LeterrIndex += 1;
-                posmove.Add(alphabet[LeterrIndex] + " " + (tmp - 1));
-                Debug.Log(posmove[0]);
+                GameObject move1 = GameObject.Find(alphabet[LeterrIndex] + " " + (tmp - 1));
+                if (move1.GetComponent<PieceRCh>().WhitTeam)
+                {
+                    tmpletind  = LeterrIndex + 1;
+                    if (GameObject.Find(alphabet[tmpletind] + " " + (tmp - 2)).GetComponent<PieceRCh>().WhitTeam)
+                    {
+                        this.Selected = false;
+                    }
+                    else
+                    {
+                        posmove.Add(alphabet[tmpletind] + " " + (tmp - 2));
+                    }
+                    tmpletind = 0;
+                }
+                else
+                {
+                    posmove.Add(alphabet[LeterrIndex] + " " + (tmp - 1));
+                }
             }
             else if (LeterrIndex > 0 && LeterrIndex < 7)
             {
                 LeterrIndex += 1;
-                posmove.Add(alphabet[LeterrIndex] + " " + (tmp - 1));
+                GameObject move1 = GameObject.Find(alphabet[LeterrIndex] + " " + (tmp - 1));
+                if (move1.GetComponent<PieceRCh>().WhitTeam)
+                {
+                    tmpletind = LeterrIndex + 1;
+                    if (tmpletind > 7)
+                    {
+                        goto BlackLeftOutBoard;
+                        
+                    }
+                    else if (GameObject.Find(alphabet[tmpletind] + " " + (tmp - 2)).GetComponent<PieceRCh>().WhitTeam)
+                    {
+                        this.Selected = false;
+                    }
+                    else
+                    {
+                        posmove.Add(alphabet[tmpletind] + " " + (tmp - 2));
+                    }
+                    tmpletind = 0;
+                }
+                else
+                {
+                    posmove.Add(alphabet[LeterrIndex] + " " + (tmp - 1));
+                }
+                BlackLeftOutBoard:
                 LeterrIndex -= 2;
-                posmove.Add(alphabet[LeterrIndex] + " " + (tmp - 1));
-                Debug.Log(posmove[0] + " " + posmove[1]);
+                GameObject move2 = GameObject.Find(alphabet[LeterrIndex] + " " + (tmp - 1));
+                if (move1.GetComponent<PieceRCh>().WhitTeam)
+                {
+                    tmpletind = LeterrIndex - 1;
+                    if (tmpletind < 0)
+                    {
+                        goto methodend;
+                    }
+                    else if (GameObject.Find(alphabet[tmpletind] + " " + (tmp - 2)).GetComponent<PieceRCh>().WhitTeam)
+                    {
+                        this.Selected = false;
+                    }
+                    else
+                    {
+                        posmove.Add(alphabet[tmpletind] + " " + (tmp - 2));
+                    }
+                    tmpletind = 0;
+                }
+                else
+                {
+                    posmove.Add(alphabet[LeterrIndex] + " " + (tmp - 1));
+                }
             }
             else if (LeterrIndex == 7)
             {
                 LeterrIndex -= 1;
-                posmove.Add(alphabet[LeterrIndex] + " " + (tmp - 1));
-                Debug.Log(posmove[0]);
+                GameObject move1 = GameObject.Find(alphabet[LeterrIndex] + " " + (tmp - 1));
+                if (move1.GetComponent<PieceRCh>().WhitTeam)
+                {
+                    tmpletind = LeterrIndex - 1;
+                    if (GameObject.Find(alphabet[tmpletind] + " " + (tmp - 2)).GetComponent<PieceRCh>().WhitTeam)
+                    {
+                        this.Selected = false;
+                    }
+                    else
+                    {
+                        posmove.Add(alphabet[tmpletind] + " " + (tmp - 2));
+                    }
+                    tmpletind = 0;
+                }
+                else
+                {
+                    posmove.Add(alphabet[LeterrIndex] + " " + (tmp - 1));
+                }
             }
-            posmove.Clear();
         }
+        methodend:
+            Debug.Log("methodends");
     }
     public void HaveChild()
     {
@@ -117,7 +287,17 @@ public class PieceRCh : MonoBehaviour
         {
             if (gameObj.GetComponent<PieceRCh>().HaveChildObj == true && this.Selected == true && this.HaveChildObj == false)
             {
-                MoveChild(gameObj);
+                if (gameObj.GetComponent<PieceRCh>().posmove.Contains(this.name))
+                {
+                    gameObj.GetComponent<PieceRCh>().posmove.Clear();
+                    MoveChild(gameObj);
+                }
+                else
+                {
+                    gameObj.GetComponent<PieceRCh>().posmove.Clear();
+                    gameObj.GetComponent<PieceRCh>().Selected = false;
+                    this.Selected = false;
+                }
 
                 goto restart;
             }
@@ -134,7 +314,9 @@ public class PieceRCh : MonoBehaviour
             gameObj.GetComponent<PieceRCh>().HaveChildObj = false;
             gameObj.GetComponent<PieceRCh>().Selected = false;
             gameObj.GetComponent<PieceRCh>().Isempty = true;
+            gameObj.GetComponent<PieceRCh>().BlackTeam = false;
             this.Selected = false;
+            this.BlackTeam = true;
             rboard.WhiteTurn = true;
             HaveChild();
         }
@@ -146,7 +328,9 @@ public class PieceRCh : MonoBehaviour
             gameObj.GetComponent<PieceRCh>().HaveChildObj = false;
             gameObj.GetComponent<PieceRCh>().Selected = false;
             gameObj.GetComponent<PieceRCh>().Isempty = true;
+            gameObj.GetComponent<PieceRCh>().WhitTeam = false;
             this.Selected = false;
+            this.WhitTeam = true;
             rboard.WhiteTurn = false;
             HaveChild();
         }
