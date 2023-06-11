@@ -7,8 +7,6 @@ public class Rchboard : MonoBehaviour
 {
     [HideInInspector]
     public static string[] alphabet = new string[] { "a", "b", "c", "d", "e", "f", "g", "h" };
-    //[HideInInspector]
-    //public static List<string> posmovechosenpiece = new List<string>();
 
     public bool WhiteTurn = true;
 
@@ -85,14 +83,4 @@ public class Rchboard : MonoBehaviour
             }
         }
     }
-    //public void SavePosMove(List<string> posmovelist)
-    //{
-    //    posmovechosenpiece = posmovelist;
-    //    Debug.Log("from board " + posmovechosenpiece[0]);
-    //}
-    //public List<string> SendPosMove()
-    //{
-    //    Debug.Log(posmovechosenpiece[0]);
-    //    return posmovechosenpiece;
-    //}
 }

@@ -72,6 +72,10 @@ public class PieceRCh : MonoBehaviour
             {
                 LeterrIndex += 1;
                 GameObject move1 = GameObject.Find(alphabet[LeterrIndex] + " " + (tmp + 1));
+                if (tmp + 1 >= 7)
+                {
+                    goto methodend;
+                }
                 if (move1.GetComponent<PieceRCh>().BlackTeam)
                 {
                     tmpletind = LeterrIndex + 1;
@@ -94,6 +98,10 @@ public class PieceRCh : MonoBehaviour
             {
                 LeterrIndex += 1;
                 GameObject move1 = GameObject.Find(alphabet[LeterrIndex] + " " + (tmp + 1));
+                if (tmp + 1 >= 7)
+                {
+                    goto methodend;
+                }
                 if (move1.GetComponent<PieceRCh>().BlackTeam)
                 {
                     tmpletind = LeterrIndex + 1;
@@ -103,7 +111,7 @@ public class PieceRCh : MonoBehaviour
                     }
                     else if (GameObject.Find(alphabet[tmpletind] + " " + (tmp + 2)).GetComponent<PieceRCh>().BlackTeam)
                     {
-                        this.Selected = false;
+                        goto WhiteLeftOutOfBoard;
                     }
                     else
                     {
@@ -118,6 +126,10 @@ public class PieceRCh : MonoBehaviour
                 WhiteLeftOutOfBoard:
                 LeterrIndex -= 2;
                 GameObject move2 = GameObject.Find(alphabet[LeterrIndex] + " " + (tmp + 1));
+                if (tmp + 1 >= 7)
+                {
+                    goto methodend;
+                }
                 if (move2.GetComponent<PieceRCh>().BlackTeam)
                 {
                     tmpletind = LeterrIndex - 1;
@@ -127,7 +139,7 @@ public class PieceRCh : MonoBehaviour
                     }
                     else if (GameObject.Find(alphabet[tmpletind] + " " + (tmp + 2)).GetComponent<PieceRCh>().BlackTeam)
                     {
-                        this.Selected = false;
+                        goto methodend;
                     }
                     else
                     {
@@ -144,6 +156,10 @@ public class PieceRCh : MonoBehaviour
             {
                 LeterrIndex -= 1;
                 GameObject move1 = GameObject.Find(alphabet[LeterrIndex] + " " + (tmp + 1));
+                if (tmp + 1 >= 7)
+                {
+                    goto methodend;
+                }
                 if (move1.GetComponent<PieceRCh>().BlackTeam)
                 {
                     tmpletind  = LeterrIndex - 1;
@@ -171,6 +187,10 @@ public class PieceRCh : MonoBehaviour
             {
                 LeterrIndex += 1;
                 GameObject move1 = GameObject.Find(alphabet[LeterrIndex] + " " + (tmp - 1));
+                if (tmp - 1 <= 0)
+                {
+                    goto methodend;
+                }
                 if (move1.GetComponent<PieceRCh>().WhitTeam)
                 {
                     tmpletind  = LeterrIndex + 1;
@@ -193,6 +213,10 @@ public class PieceRCh : MonoBehaviour
             {
                 LeterrIndex += 1;
                 GameObject move1 = GameObject.Find(alphabet[LeterrIndex] + " " + (tmp - 1));
+                if (tmp - 1 <= 0)
+                {
+                    goto methodend;
+                }
                 if (move1.GetComponent<PieceRCh>().WhitTeam)
                 {
                     tmpletind = LeterrIndex + 1;
@@ -203,7 +227,7 @@ public class PieceRCh : MonoBehaviour
                     }
                     else if (GameObject.Find(alphabet[tmpletind] + " " + (tmp - 2)).GetComponent<PieceRCh>().WhitTeam)
                     {
-                        this.Selected = false;
+                        goto BlackLeftOutBoard;
                     }
                     else
                     {
@@ -218,7 +242,7 @@ public class PieceRCh : MonoBehaviour
                 BlackLeftOutBoard:
                 LeterrIndex -= 2;
                 GameObject move2 = GameObject.Find(alphabet[LeterrIndex] + " " + (tmp - 1));
-                if (move1.GetComponent<PieceRCh>().WhitTeam)
+                if (move2.GetComponent<PieceRCh>().WhitTeam)
                 {
                     tmpletind = LeterrIndex - 1;
                     if (tmpletind < 0)
@@ -227,7 +251,7 @@ public class PieceRCh : MonoBehaviour
                     }
                     else if (GameObject.Find(alphabet[tmpletind] + " " + (tmp - 2)).GetComponent<PieceRCh>().WhitTeam)
                     {
-                        this.Selected = false;
+                        goto methodend;
                     }
                     else
                     {
@@ -244,6 +268,10 @@ public class PieceRCh : MonoBehaviour
             {
                 LeterrIndex -= 1;
                 GameObject move1 = GameObject.Find(alphabet[LeterrIndex] + " " + (tmp - 1));
+                if (tmp - 1 <= 0)
+                {
+                    goto methodend;
+                }
                 if (move1.GetComponent<PieceRCh>().WhitTeam)
                 {
                     tmpletind = LeterrIndex - 1;
