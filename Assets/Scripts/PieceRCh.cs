@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PieceRCh : MonoBehaviour
@@ -23,6 +24,8 @@ public class PieceRCh : MonoBehaviour
 
     public GameObject checkerPrefab;
 
+    public bool WillKilled = false;
+    public bool CanKill = false;
     public bool Isempty = true;
     public bool Selected = false;
     public bool HaveChildObj = false;
@@ -85,6 +88,8 @@ public class PieceRCh : MonoBehaviour
                     }
                     else
                     {
+                        CanKill = true;
+                        move1.GetComponent<PieceRCh>().WillKilled = true;
                         posmove.Add(alphabet[tmpletind] + " " + (tmp + 2));
                     }
                     tmpletind = 0;
@@ -115,6 +120,8 @@ public class PieceRCh : MonoBehaviour
                     }
                     else
                     {
+                        CanKill = true;
+                        move1.GetComponent<PieceRCh>().WillKilled = true;
                         posmove.Add(alphabet[tmpletind] + " " + (tmp + 2));
                     }
                     tmpletind = 0;
@@ -143,6 +150,8 @@ public class PieceRCh : MonoBehaviour
                     }
                     else
                     {
+                        CanKill = true;
+                        move2.GetComponent<PieceRCh>().WillKilled = true;
                         posmove.Add(alphabet[tmpletind] + " " + (tmp + 2));
                     }
                     tmpletind = 0;
@@ -169,6 +178,8 @@ public class PieceRCh : MonoBehaviour
                     }
                     else
                     {
+                        CanKill = true;
+                        move1.GetComponent<PieceRCh>().WillKilled = true;
                         posmove.Add(alphabet[tmpletind] + " " + (tmp + 2));
                     }
                     tmpletind = 0;
@@ -200,6 +211,8 @@ public class PieceRCh : MonoBehaviour
                     }
                     else
                     {
+                        CanKill = true;
+                        move1.GetComponent<PieceRCh>().WillKilled = true;
                         posmove.Add(alphabet[tmpletind] + " " + (tmp - 2));
                     }
                     tmpletind = 0;
@@ -231,6 +244,8 @@ public class PieceRCh : MonoBehaviour
                     }
                     else
                     {
+                        CanKill = true;
+                        move1.GetComponent<PieceRCh>().WillKilled = true;
                         posmove.Add(alphabet[tmpletind] + " " + (tmp - 2));
                     }
                     tmpletind = 0;
@@ -255,6 +270,8 @@ public class PieceRCh : MonoBehaviour
                     }
                     else
                     {
+                        CanKill = true;
+                        move2.GetComponent<PieceRCh>().WillKilled = true;
                         posmove.Add(alphabet[tmpletind] + " " + (tmp - 2));
                     }
                     tmpletind = 0;
@@ -281,6 +298,8 @@ public class PieceRCh : MonoBehaviour
                     }
                     else
                     {
+                        CanKill = true;
+                        move1.GetComponent<PieceRCh>().WillKilled = true;
                         posmove.Add(alphabet[tmpletind] + " " + (tmp - 2));
                     }
                     tmpletind = 0;
@@ -317,6 +336,10 @@ public class PieceRCh : MonoBehaviour
             {
                 if (gameObj.GetComponent<PieceRCh>().posmove.Contains(this.name))
                 {
+                    if (gameObj.GetComponent<PieceRCh>().CanKill)
+                    {
+                        KillCh(this.name);
+                    }
                     gameObj.GetComponent<PieceRCh>().posmove.Clear();
                     MoveChild(gameObj);
                 }
@@ -332,6 +355,40 @@ public class PieceRCh : MonoBehaviour
         }
         Array.Clear(go, 0, go.Length);
     }
+    public void KillCh(string movetilename)
+    {
+        string[] killcell = movetilename.Split(' ');
+        int LetterIndex = Array.IndexOf(alphabet, killcell[0]);
+
+        int tmpnum = Convert.ToInt32(killcell[1]);
+        string potkilledWhite = alphabet[LetterIndex - 1] + ' ' + Convert.ToString(tmpnum - 1);
+        if (rboard.WhiteTurn && GameObject.Find(potkilledWhite).GetComponent<PieceRCh>().BlackTeam && GameObject.Find(potkilledWhite).GetComponent<PieceRCh>().WillKilled)
+        {
+            DestroyImmediate(GameObject.Find(potkilledWhite).GetComponent<PieceRCh>().transform.GetChild(0).gameObject);
+            goto killmethodend;
+        }
+        potkilledWhite = alphabet[LetterIndex + 1] + ' ' + Convert.ToString(tmpnum - 1);
+        if (rboard.WhiteTurn && GameObject.Find(potkilledWhite).GetComponent<PieceRCh>().BlackTeam && GameObject.Find(potkilledWhite).GetComponent<PieceRCh>().WillKilled)
+        {
+            DestroyImmediate(GameObject.Find(potkilledWhite).GetComponent<PieceRCh>().transform.GetChild(0).gameObject);
+            goto killmethodend;
+        }
+        string potkilledBlack = alphabet[LetterIndex - 1] + ' ' + Convert.ToString(tmpnum + 1);
+        if (!rboard.WhiteTurn && GameObject.Find(potkilledBlack).GetComponent<PieceRCh>().WhitTeam && GameObject.Find(potkilledBlack).GetComponent<PieceRCh>().WillKilled)
+        {
+            DestroyImmediate(GameObject.Find(potkilledBlack).GetComponent<PieceRCh>().transform.GetChild(0).gameObject);
+            goto killmethodend;
+        }
+        potkilledBlack = alphabet[LetterIndex + 1] + ' ' + Convert.ToString(tmpnum + 1);
+        if (!rboard.WhiteTurn && GameObject.Find(potkilledBlack).GetComponent<PieceRCh>().WhitTeam && GameObject.Find(potkilledBlack).GetComponent<PieceRCh>().WillKilled)
+        {
+            DestroyImmediate(GameObject.Find(potkilledBlack).GetComponent<PieceRCh>().transform.GetChild(0).gameObject);
+            goto killmethodend;
+        }
+    killmethodend:
+        Debug.Log("killmethodend");
+
+    }
     public void MoveChild(GameObject gameObj)
     {
         if (!rboard.WhiteTurn && gameObj.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite == Resources.Load<Sprite>("blackdef") || gameObj.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite == Resources.Load<Sprite>("blackcool"))
@@ -343,6 +400,7 @@ public class PieceRCh : MonoBehaviour
             gameObj.GetComponent<PieceRCh>().Selected = false;
             gameObj.GetComponent<PieceRCh>().Isempty = true;
             gameObj.GetComponent<PieceRCh>().BlackTeam = false;
+            gameObj.GetComponent<PieceRCh>().CanKill = false;
             this.Selected = false;
             this.BlackTeam = true;
             rboard.WhiteTurn = true;
@@ -357,6 +415,7 @@ public class PieceRCh : MonoBehaviour
             gameObj.GetComponent<PieceRCh>().Selected = false;
             gameObj.GetComponent<PieceRCh>().Isempty = true;
             gameObj.GetComponent<PieceRCh>().WhitTeam = false;
+            gameObj.GetComponent<PieceRCh>().CanKill = false;
             this.Selected = false;
             this.WhitTeam = true;
             rboard.WhiteTurn = false;
