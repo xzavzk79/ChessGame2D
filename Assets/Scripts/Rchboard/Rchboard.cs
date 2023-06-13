@@ -22,7 +22,9 @@ public class Rchboard : MonoBehaviour
 
     GameObject[] pieceArrangement;
 
-    
+    /// <summary>
+    /// Создает доску, присваивает имена клеткам
+    /// </summary>
     public void CreateChBoard()
     {
         for (int i = 0; i < 8; i++)
@@ -44,6 +46,9 @@ public class Rchboard : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// Расставляет шашки по клеткам
+    /// </summary>
     public void SetupPieces()
     {
        

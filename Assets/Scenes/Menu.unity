@@ -3820,7 +3820,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Russian checkers
+  m_Text: "\u0421heckers"
 --- !u!222 &1730277724
 CanvasRenderer:
   m_ObjectHideFlags: 0

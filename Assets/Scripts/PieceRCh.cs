@@ -31,6 +31,7 @@ public class PieceRCh : MonoBehaviour
     public bool HaveChildObj = false;
     #endregion
 
+    #region Вызываются при нажатии на клетку
     private void Start()
     {
         rboard = GameObject.Find("GameManager").GetComponent<Rchboard>();
@@ -50,6 +51,33 @@ public class PieceRCh : MonoBehaviour
             GetObjwChild();
         }
     }
+    #endregion
+
+    #region Различные проверки и подготовления
+    /// <summary>
+    /// Заполняет список типа объект клетками
+    /// </summary>
+    public void FillArrayWithGo()
+    {
+        go = GameObject.FindGameObjectsWithTag("Tile");
+    }
+    /// <summary>
+    /// Проверяет достигла ли шашка конца доски
+    /// </summary>
+    public void CheckForPromote()
+    {
+        string[] curcell = this.name.Split(' ');
+
+        int tmp = Convert.ToInt32(curcell[1]);
+
+        if (tmp >= 7 || tmp <= 1)
+        {
+            PromoteChecker(this.gameObject);
+        }
+    }
+    /// <summary>
+    /// выставляет флаг команды (белый/черный)
+    /// </summary>
     public void CheckTeam()
     {
         if (this.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite == Resources.Load<Sprite>("blackdef") || this.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite == Resources.Load<Sprite>("blackcool"))
@@ -61,6 +89,9 @@ public class PieceRCh : MonoBehaviour
             this.WhitTeam = true;
         }
     }
+    /// <summary>
+    /// записывает в список возможные ходы выбраной клетки
+    /// </summary>
     public void CheckPosMove()
     {
         string[] curcell = this.name.Split(' ');
@@ -130,7 +161,7 @@ public class PieceRCh : MonoBehaviour
                 {
                     posmove.Add(alphabet[LeterrIndex] + " " + (tmp + 1));
                 }
-                WhiteLeftOutOfBoard:
+            WhiteLeftOutOfBoard:
                 LeterrIndex -= 2;
                 GameObject move2 = GameObject.Find(alphabet[LeterrIndex] + " " + (tmp + 1));
                 if (tmp + 1 >= 7)
@@ -167,11 +198,12 @@ public class PieceRCh : MonoBehaviour
                 GameObject move1 = GameObject.Find(alphabet[LeterrIndex] + " " + (tmp + 1));
                 if (tmp + 1 >= 7)
                 {
+
                     goto methodend;
                 }
                 if (move1.GetComponent<PieceRCh>().BlackTeam)
                 {
-                    tmpletind  = LeterrIndex - 1;
+                    tmpletind = LeterrIndex - 1;
                     if (GameObject.Find(alphabet[tmpletind] + " " + (tmp + 2)).GetComponent<PieceRCh>().BlackTeam)
                     {
                         this.Selected = false;
@@ -204,7 +236,7 @@ public class PieceRCh : MonoBehaviour
                 }
                 if (move1.GetComponent<PieceRCh>().WhitTeam)
                 {
-                    tmpletind  = LeterrIndex + 1;
+                    tmpletind = LeterrIndex + 1;
                     if (GameObject.Find(alphabet[tmpletind] + " " + (tmp - 2)).GetComponent<PieceRCh>().WhitTeam)
                     {
                         this.Selected = false;
@@ -236,7 +268,7 @@ public class PieceRCh : MonoBehaviour
                     if (tmpletind > 7)
                     {
                         goto BlackLeftOutBoard;
-                        
+
                     }
                     else if (GameObject.Find(alphabet[tmpletind] + " " + (tmp - 2)).GetComponent<PieceRCh>().WhitTeam)
                     {
@@ -254,7 +286,7 @@ public class PieceRCh : MonoBehaviour
                 {
                     posmove.Add(alphabet[LeterrIndex] + " " + (tmp - 1));
                 }
-                BlackLeftOutBoard:
+            BlackLeftOutBoard:
                 LeterrIndex -= 2;
                 GameObject move2 = GameObject.Find(alphabet[LeterrIndex] + " " + (tmp - 1));
                 if (move2.GetComponent<PieceRCh>().WhitTeam)
@@ -310,9 +342,12 @@ public class PieceRCh : MonoBehaviour
                 }
             }
         }
-        methodend:
-            Debug.Log("methodends");
+    methodend:
+        Debug.Log("methodends");
     }
+    /// <summary>
+    /// выставляет флаг на наличие дочернего объекта
+    /// </summary>
     public void HaveChild()
     {
         if (gameObject.transform.childCount > 0)
@@ -326,10 +361,16 @@ public class PieceRCh : MonoBehaviour
             Isempty = true;
         }
     }
+    #endregion
+
+    #region Действия шашек
+    /// <summary>
+    /// Проверяет выбранные клетки на наличие/отсутсвие дочерних объектов
+    /// </summary>
     public void GetObjwChild()
     {
         FillArrayWithGo();
-        restart:
+    restart:
         foreach (GameObject gameObj in go.Where(g => g.GetComponent<PieceRCh>().Selected == true))
         {
             if (gameObj.GetComponent<PieceRCh>().HaveChildObj == true && this.Selected == true && this.HaveChildObj == false)
@@ -355,6 +396,10 @@ public class PieceRCh : MonoBehaviour
         }
         Array.Clear(go, 0, go.Length);
     }
+    /// <summary>
+    /// Уничтожает шашку противоположного цвета, если через нее совершили ход
+    /// </summary>
+    /// <param name="movetilename">Имя клетки в которую перемещают шашку</param>
     public void KillCh(string movetilename)
     {
         string[] killcell = movetilename.Split(' ');
@@ -389,12 +434,17 @@ public class PieceRCh : MonoBehaviour
         Debug.Log("killmethodend");
 
     }
+    /// <summary>
+    /// Перемещает дочерний объект из одной клетки в другую
+    /// </summary>
+    /// <param name="gameObj">Объект в который перемещается дочерний</param>
     public void MoveChild(GameObject gameObj)
     {
         if (!rboard.WhiteTurn && gameObj.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite == Resources.Load<Sprite>("blackdef") || gameObj.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite == Resources.Load<Sprite>("blackcool"))
         {
             checkerPrefab.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("blackdef");
             var child = Instantiate(checkerPrefab, this.gameObject.transform);
+            CheckForPromote();
             DestroyImmediate(gameObj.transform.GetChild(0).gameObject);
             gameObj.GetComponent<PieceRCh>().HaveChildObj = false;
             gameObj.GetComponent<PieceRCh>().Selected = false;
@@ -410,6 +460,7 @@ public class PieceRCh : MonoBehaviour
         {
             checkerPrefab.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("whitedef");
             var child = Instantiate(checkerPrefab, this.gameObject.transform);
+            CheckForPromote();
             DestroyImmediate(gameObj.transform.GetChild(0).gameObject);
             gameObj.GetComponent<PieceRCh>().HaveChildObj = false;
             gameObj.GetComponent<PieceRCh>().Selected = false;
@@ -427,8 +478,24 @@ public class PieceRCh : MonoBehaviour
             this.Selected = false;
         }
     }
-    public void FillArrayWithGo()
+    /// <summary>
+    /// Меняет шашку на королевскую
+    /// </summary>
+    /// <param name="promoteObject"></param>
+    public void PromoteChecker(GameObject promoteObject)
     {
-        go = GameObject.FindGameObjectsWithTag("Tile");
+        if (promoteObject.GetComponent<PieceRCh>().WhitTeam)
+        {
+            DestroyImmediate(promoteObject.GetComponent<PieceRCh>().transform.GetChild(0).gameObject);
+            checkerPrefab.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("whitecool");
+            Instantiate(checkerPrefab, promoteObject.transform);
+        }
+        else if (promoteObject.GetComponent<PieceRCh>().BlackTeam)
+        {
+            DestroyImmediate(promoteObject.GetComponent<PieceRCh>().transform.GetChild(0).gameObject);
+            checkerPrefab.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("blackcool");
+            Instantiate(checkerPrefab, promoteObject.transform);
+        }
     }
+    #endregion
 }
