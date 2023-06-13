@@ -11,7 +11,8 @@ public enum CellState
     Friendly,
     Enemy,
     Free,
-    OutOfBounds
+    OutOfBounds,
+    Attack
 }
 
 public class Board : MonoBehaviour
@@ -88,6 +89,9 @@ public class Board : MonoBehaviour
             if (checkingPiece.mColor != targetCell.mCurrentPiece.mColor)
                 return CellState.Enemy;
         }
+
+        if (checkingPiece.)
+            return CellState.Attack;
 
         return CellState.Free;
     }

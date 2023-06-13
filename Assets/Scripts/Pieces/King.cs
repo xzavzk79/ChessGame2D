@@ -36,7 +36,7 @@ public class King : BasePieces
         base.Move();
 
         if (CanCastle(mLeftRook))
-            mLeftRook.Castle();
+            mLeftRook.Castle(); 
 
         if (CanCastle(mRightRook))
             mRightRook.Castle();
@@ -53,7 +53,7 @@ public class King : BasePieces
     }
     private Rook GetRook(int derection, int count)
     {
-        if (mIsFirstMove)
+        if (!mIsFirstMove)
             return null;
 
         int currentX = mCurrentCell.mBoardPosition.x;
