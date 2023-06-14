@@ -90,9 +90,6 @@ public class Board : MonoBehaviour
                 return CellState.Enemy;
         }
 
-        if (checkingPiece.)
-            return CellState.Attack;
-
         return CellState.Free;
     }
 }           
