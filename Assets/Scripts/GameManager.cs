@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
         {
             // Создание поля
             mBoard.Create();
-            //Размещение на полк фигур
+            //Размещение на полe фигур
             mPieceManager.Setup(mBoard);
         }
         else if (curscene.name == "shashki")

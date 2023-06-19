@@ -13,7 +13,7 @@ public class BasePieces : EventTrigger
     public Color mColor = Color.clear;
     public bool mIsFirstMove = true;
 
-    protected Cell mOriginalCell_4x4 = null;
+    protected Cell mOriginalCell = null;
     protected Cell mCurrentCell = null;
 
     protected RectTransform mRectTransform = null;
@@ -41,6 +41,7 @@ public class BasePieces : EventTrigger
     public virtual void Place(Cell newCell)
     {
         mCurrentCell = newCell;
+        mOriginalCell = newCell;
         mCurrentCell.mCurrentPiece = this;
 
         transform.position = newCell.transform.position;
@@ -49,6 +50,7 @@ public class BasePieces : EventTrigger
     public void Reset()
     {
         Kill();
+        Place(mOriginalCell);
     }
 
     public virtual void Kill()

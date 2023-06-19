@@ -160,6 +160,7 @@ public class PieceManager : MonoBehaviour
     public void HideGameOver()
     {
         GameOver.SetActive(false);
+        ResetPieces();
     }
     public void ResetPieces()
     {
